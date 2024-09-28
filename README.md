@@ -74,5 +74,5 @@ chmod +x initial-conf.sh compile-debug.sh compile-release.sh
 ./build/Release/bin/permissions
 ```
 
-**1. Вариант установки вручную**
+**2. Вариант установки вручную**
 
