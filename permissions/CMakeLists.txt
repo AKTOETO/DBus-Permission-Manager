@@ -1,49 +1,9 @@
 cmake_minimum_required(VERSION 3.23)
 
-################
-# ПЕРЕМЕННЫЕ
-################
+# добавляем директорию сервиса permissions-server
+add_subdirectory(server)
 
-# заголовочные файлы
-file(GLOB HDRS include/*.h)
 
-message("###### PERMISSIONS ######")
-message( "Заголовочные файлы:")
-foreach(header ${HDRS})
-message("  ${header}")
-endforeach()
+# добавляем директорию сервиса permissions-client
+add_subdirectory(client)
 
-# файлы исходного кода
-file(GLOB SRCS src/*)
-
-message("Файлы исходного кода:")
-foreach(src ${SRCS})
-message("  ${src}")
-endforeach()
-
-# список библиотек
-set(LIBS 
-SQLite::SQLite3
-SDBusCpp::sdbus-c++
-)
-message("############")
-
-################
-
-# создание исполняемого файла
-add_executable(permissions ${HDRS} ${SRCS})
-
-# подключение библиотек
-target_link_libraries(permissions ${LIBS})
-
-# подключаем заголовочные файлы
-target_include_directories(permissions
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
-# проверка утечек памяти и вывод варнингов в дебаге
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(permissions PRIVATE -W -Wall -fsanitize=address -g)
-    target_link_options(permissions PRIVATE -fsanitize=address)
-endif()
