@@ -11,19 +11,13 @@ Permissions::Permissions() {
   sdbus::ObjectPath objectPath{"/"};
   m_object = sdbus::createObject(*m_connection, std::move(objectPath));
 
-  // обертка для запроса прав
-  auto requestPerm = [this](Permissions::PermissionType type) {
-    auto msg = getObject()->getCurrentlyProcessedMessage();
-    auto name = getFilepath(msg.getSender());
-    std::cout << "Имя вызывающего файла: " << name << "\n";
-
-    requestPermission(name, type);
-  };
-
   // Регистрация методов
   m_object
       ->addVTable(sdbus::registerMethod("RequestPermission")
-                      .implementedAs(std::move(requestPerm))
+                      .implementedAs(
+                          std::move([this](Permissions::PermissionType type) {
+                            requestPermission(type);
+                          }))
                       .withInputParamNames("Permissions"),
 
                   sdbus::registerMethod("CheckApplicationHasPermission")
@@ -37,17 +31,17 @@ Permissions::Permissions() {
       .forInterface("com.system.permissions");
 }
 
-void Permissions::requestPermission(std::string str, PermissionType perm) {
+void Permissions::requestPermission(PermissionType perm) {
+
+  std::string filepath =
+      getFilepath(m_object->getCurrentlyProcessedMessage().getSender());
 
   std::cout << "Запрошенынй тип доступа: " << int32_t(perm)
-            << " для файла: " << str << std::endl;
+            << " для файла: " << filepath << std::endl;
 
   /*
     Сохраняем в бд запрос приложения о праве доступа
   */
-
-  // возвращаем пустой ответ
-  return;
 }
 
 bool Permissions::checkApplicationHasPermission(std::string str,
@@ -71,10 +65,6 @@ void Permissions::run() {
   m_connection->enterEventLoop();
 }
 
-const std::unique_ptr<sdbus::IObject> &Permissions::getObject() {
-  return m_object;
-}
-
 std::string Permissions::getFilepath(const std::string &dbus_id) {
 
   // формирование фалового пути по pid
@@ -88,14 +78,15 @@ std::string Permissions::getFilepath(const std::string &dbus_id) {
   }
 
   // Читаем символическую ссылку
-  ssize_t len = readlink(exe, exe, sizeof(exe) - 1);
+  char buf[150];
+  ssize_t len = readlink(exe, buf, sizeof(exe) - 1);
   if (len == -1) {
     throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.LINK"},
                        "Ошибка при чтении символической ссылки");
   }
-  exe[len] = '\0';
+  buf[len] = '\0';
 
-  return std::string(exe);
+  return std::string(buf);
 }
 
 uint32_t Permissions::getPid(const std::string &dbus_id) {
@@ -110,7 +101,5 @@ uint32_t Permissions::getPid(const std::string &dbus_id) {
       .onInterface("org.freedesktop.DBus")
       .withArguments(dbus_id)
       .storeResultsTo(pid);
-
-  std::cout << "pid: " << pid << "\n";
   return pid;
 }

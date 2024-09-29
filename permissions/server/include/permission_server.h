@@ -16,10 +16,9 @@ public:
   /**
    * @brief Заправшиваем права доступа
    *
-   * @param str путь к исполняемому файлу
    * @param perm код доступа
    */
-  void requestPermission(std::string str, PermissionType perm);
+  void requestPermission(PermissionType perm);
 
   /**
    * @brief Проверяем: есть ли право доступа perm у приложения str
@@ -36,13 +35,6 @@ public:
    *
    */
   void run();
-
-  /**
-   * @brief Get the Object object
-   *
-   * @return std::unique_ptr<sdbus::IObject>
-   */
-  const std::unique_ptr<sdbus::IObject> &getObject();
 
   /**
    * @brief Получение пути файла по dbusid
