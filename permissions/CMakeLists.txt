@@ -41,3 +41,9 @@ target_include_directories(permissions
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+# проверка утечек памяти и вывод варнингов в дебаге
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(permissions PRIVATE -W -Wall -fsanitize=address -g)
+    target_link_options(permissions PRIVATE -fsanitize=address)
+endif()
