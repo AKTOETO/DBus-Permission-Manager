@@ -1,4 +1,5 @@
 #include "permission_server.h"
+#include "utils.h"
 #include <iostream>
 #include <unistd.h>
 
@@ -34,7 +35,7 @@ Permissions::Permissions() {
 void Permissions::requestPermission(PermissionType perm) {
 
   std::string filepath =
-      getFilepath(m_object->getCurrentlyProcessedMessage().getSender());
+      Utils::getFilepath(m_object->getCurrentlyProcessedMessage().getSender());
 
   std::cout << "Запрошенынй тип доступа: " << int32_t(perm)
             << " для файла: " << filepath << std::endl;
@@ -65,41 +66,41 @@ void Permissions::run() {
   m_connection->enterEventLoop();
 }
 
-std::string Permissions::getFilepath(const std::string &dbus_id) {
+// std::string Permissions::getFilepath(const std::string &dbus_id) {
 
-  // формирование фалового пути по pid
-  char exe[150];
-  sprintf(exe, "/proc/%d/exe", getPid(dbus_id));
+//   // формирование фалового пути по pid
+//   char exe[150];
+//   sprintf(exe, "/proc/%d/exe", getPid(dbus_id));
 
-  // Проверяем, существует ли файл
-  if (access(exe, F_OK) == -1) {
-    throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.PID"},
-                       "Процесс с таким pid не найден");
-  }
+//   // Проверяем, существует ли файл
+//   if (access(exe, F_OK) == -1) {
+//     throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.PID"},
+//                        "Процесс с таким pid не найден");
+//   }
 
-  // Читаем символическую ссылку
-  char buf[150];
-  ssize_t len = readlink(exe, buf, sizeof(exe) - 1);
-  if (len == -1) {
-    throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.LINK"},
-                       "Ошибка при чтении символической ссылки");
-  }
-  buf[len] = '\0';
+//   // Читаем символическую ссылку
+//   char buf[150];
+//   ssize_t len = readlink(exe, buf, sizeof(exe) - 1);
+//   if (len == -1) {
+//     throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.LINK"},
+//                        "Ошибка при чтении символической ссылки");
+//   }
+//   buf[len] = '\0';
 
-  return std::string(buf);
-}
+//   return std::string(buf);
+// }
 
-uint32_t Permissions::getPid(const std::string &dbus_id) {
-  // Получаем D-Bus соединение
-  sdbus::ServiceName serviceName{"org.freedesktop.DBus"};
-  sdbus::ObjectPath objectPath{"/org/freedesktop/DBus"};
-  auto connection = sdbus::createProxy(serviceName, objectPath);
+// uint32_t Permissions::getPid(const std::string &dbus_id) {
+//   // Получаем D-Bus соединение
+//   sdbus::ServiceName serviceName{"org.freedesktop.DBus"};
+//   sdbus::ObjectPath objectPath{"/org/freedesktop/DBus"};
+//   auto connection = sdbus::createProxy(serviceName, objectPath);
 
-  uint32_t pid;
-  // Получаем pid процесса, отправившего запрос
-  connection->callMethod("GetConnectionUnixProcessID")
-      .onInterface("org.freedesktop.DBus")
-      .withArguments(dbus_id)
-      .storeResultsTo(pid);
-  return pid;
-}
+//   uint32_t pid;
+//   // Получаем pid процесса, отправившего запрос
+//   connection->callMethod("GetConnectionUnixProcessID")
+//       .onInterface("org.freedesktop.DBus")
+//       .withArguments(dbus_id)
+//       .storeResultsTo(pid);
+//   return pid;
+// }

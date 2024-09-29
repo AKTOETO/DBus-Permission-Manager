@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.23)
 # заголовочные файлы
 file(GLOB HDRS include/*.h)
 
-message("###### PERMISSIONS SERVER ######")
+message("###### UTILS LIB ######")
 message( "Заголовочные файлы:")
 foreach(header ${HDRS})
 message("  ${header}")
@@ -23,28 +23,27 @@ endforeach()
 
 # список библиотек
 set(LIBS 
-    utils
-    SQLite::SQLite3
-    SDBusCpp::sdbus-c++
+#SQLite::SQLite3
+SDBusCpp::sdbus-c++
 )
 message("############")
 
 ################
 
-# создание исполняемого файла
-add_executable(permissions-server ${HDRS} ${SRCS})
+# объявляем таргет библиотеки с утилитами
+add_library(utils ${HDRS} ${SRCS})
 
 # подключение библиотек
-target_link_libraries(permissions-server ${LIBS})
+target_link_libraries(utils ${LIBS})
 
 # подключаем заголовочные файлы
-target_include_directories(permissions-server
-    PRIVATE
+target_include_directories(utils
+    PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 # проверка утечек памяти и вывод варнингов в дебаге
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(permissions-server PRIVATE -W -Wall -fsanitize=address -g)
-    target_link_options(permissions-server PRIVATE -fsanitize=address)
+    target_compile_options(utils PRIVATE -W -Wall -fsanitize=address -g)
+    target_link_options(utils PRIVATE -fsanitize=address)
 endif()

@@ -14,5 +14,8 @@ endif()
 find_package(sdbus-c++ REQUIRED)
 find_package(SQLite3 REQUIRED)
 
+# добавление директории с утилитами
+add_subdirectory(utils)
+
 # добавляем директорию сервиса permissions
 add_subdirectory(permissions)

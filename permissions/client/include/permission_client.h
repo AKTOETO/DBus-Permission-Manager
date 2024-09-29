@@ -1,0 +1,7 @@
+#ifndef PERMISSION_CLIENT_H
+#define PERMISSION_CLIENT_H
+
+
+
+
+#endif //!PERMISSION_CLIENT_H

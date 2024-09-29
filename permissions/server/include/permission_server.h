@@ -21,7 +21,7 @@ public:
 
 private:
   /**
-   * @brief Заправшиваем права доступа
+   * @brief Запрашиваем права доступа
    *
    * @param perm код доступа
    */
@@ -37,24 +37,7 @@ private:
    */
   bool checkApplicationHasPermission(std::string str, PermissionType perm);
 
-  /**
-   * @brief Получение пути файла по dbusid
-   *
-   * @param dbus_id строка, полученная из getSender()
-   * @return std::string путь до исполняемого файла
-   */
-  std::string getFilepath(const std::string& dbus_id);
-
-    /**
-     * @brief Получение pid, вызвавшего данный метод процесса
-     * 
-     * @param dbus_id строка, полученная из getSender()
-     * @return std::string 
-     */
-  uint32_t getPid(const std::string &dbus_id);
-
 private:
-
   // соединение с DBus шиной
   std::unique_ptr<sdbus::IConnection> m_connection;
 
