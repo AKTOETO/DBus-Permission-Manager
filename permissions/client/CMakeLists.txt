@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.23)
 
+project(permission_client)
+
 ################
-# ПЕРЕМЕННЫЕ
+# ПЕРЕМЕННЫЕ ТЕСТОВОГО КЛИЕНТА
 ################
 
 # заголовочные файлы
-file(GLOB HDRS include/*.h)
+file(GLOB HDRS include/*)
 
-message("###### PERMISSIONS CLIENT ######")
+message("###### ${PROJECT_NAME} ######")
 message( "Заголовочные файлы:")
 foreach(header ${HDRS})
-message("  ${header}")
+    message("  ${header}")
 endforeach()
 
 # файлы исходного кода
@@ -18,32 +20,34 @@ file(GLOB SRCS src/*)
 
 message("Файлы исходного кода:")
 foreach(src ${SRCS})
-message("  ${src}")
+    message("  ${src}")
 endforeach()
 
 # список библиотек
 set(LIBS 
-SQLite::SQLite3
-SDBusCpp::sdbus-c++
+    permission_general_lib
+    permission_client_lib
+    #SQLite::SQLite3
+    SDBusCpp::sdbus-c++
 )
 message("############")
 
 ################
 
 # создание исполняемого файла
-add_executable(permissions-client ${HDRS} ${SRCS})
+add_executable(${PROJECT_NAME} ${HDRS} ${SRCS})
 
 # подключение библиотек
-target_link_libraries(permissions-client ${LIBS})
+target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 # подключаем заголовочные файлы
-target_include_directories(permissions-client
+target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 # проверка утечек памяти и вывод варнингов в дебаге
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(permissions-client PRIVATE -W -Wall -fsanitize=address -g)
-    target_link_options(permissions-client PRIVATE -fsanitize=address)
+    target_compile_options(${PROJECT_NAME} PRIVATE -W -Wall -fsanitize=address -g)
+    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
 endif()

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.23)
 
+project(utils_lib)
+
 ################
 # ПЕРЕМЕННЫЕ
 ################
@@ -7,7 +9,7 @@ cmake_minimum_required(VERSION 3.23)
 # заголовочные файлы
 file(GLOB HDRS include/*.h)
 
-message("###### UTILS LIB ######")
+message("###### ${PROJECT_NAME} ######")
 message( "Заголовочные файлы:")
 foreach(header ${HDRS})
 message("  ${header}")
@@ -23,27 +25,27 @@ endforeach()
 
 # список библиотек
 set(LIBS 
-#SQLite::SQLite3
-SDBusCpp::sdbus-c++
+    #SQLite::SQLite3
+    SDBusCpp::sdbus-c++
 )
 message("############")
 
 ################
 
 # объявляем таргет библиотеки с утилитами
-add_library(utils ${HDRS} ${SRCS})
+add_library(${PROJECT_NAME} ${HDRS} ${SRCS})
 
 # подключение библиотек
-target_link_libraries(utils ${LIBS})
+target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 # подключаем заголовочные файлы
-target_include_directories(utils
+target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 # проверка утечек памяти и вывод варнингов в дебаге
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(utils PRIVATE -W -Wall -fsanitize=address -g)
-    target_link_options(utils PRIVATE -fsanitize=address)
+    target_compile_options(${PROJECT_NAME} PRIVATE -W -Wall -fsanitize=address -g)
+    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
 endif()

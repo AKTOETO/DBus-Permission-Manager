@@ -1,11 +1,12 @@
-#ifndef PERMISSION_SERVER_H
-#define PERMISSION_SERVER_H
+#ifndef PERMISSION_CLIENT_H
+#define PERMISSION_CLIENT_H
 
 #include "permission.h"
 
-class PermissionsServer : public Permissions {
+class PermissionsClient : public Permissions {
 public:
-  PermissionsServer(std::unique_ptr<sdbus::IObject> object);
+
+  PermissionsClient(std::unique_ptr<sdbus::IProxy> proxy);
 
   /**
    * @brief Запрашиваем права доступа
@@ -22,12 +23,12 @@ public:
    * @return true доступ есть \n
    * @return false доступа нет
    */
-  virtual bool checkApplicationHasPermission(std::string str,
-                                             PermissionType perm) override;
+  virtual bool checkApplicationHasPermission(std::string str, PermissionType perm) override;
 
 private:
-  // Объект на DBus шине
-  std::unique_ptr<sdbus::IObject> m_object;
+  // Прокси для работы с DBus шиной
+  std::unique_ptr<sdbus::IProxy> m_proxy;
 };
 
-#endif // !PERMISSION_SERVER_H
+
+#endif //!PERMISSION_CLIENT_H

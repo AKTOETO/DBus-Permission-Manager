@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(permission_server)
+project(permission_general_lib)
 
 ################
 # ПЕРЕМЕННЫЕ
@@ -25,24 +25,23 @@ endforeach()
 
 # список библиотек
 set(LIBS 
-    utils_lib
-    permission_general_lib
-    SQLite::SQLite3
+#SQLite::SQLite3
+#    utils_lib
     SDBusCpp::sdbus-c++
 )
 message("############")
 
 ################
 
-# создание исполняемого файла
-add_executable(${PROJECT_NAME} ${HDRS} ${SRCS})
+# объявляем таргет библиотеки с утилитами
+add_library(${PROJECT_NAME} ${HDRS} ${SRCS})
 
 # подключение библиотек
 target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 # подключаем заголовочные файлы
 target_include_directories(${PROJECT_NAME}
-    PRIVATE
+    PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 

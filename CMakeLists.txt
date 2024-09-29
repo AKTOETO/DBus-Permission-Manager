@@ -18,4 +18,4 @@ find_package(SQLite3 REQUIRED)
 add_subdirectory(utils)
 
 # добавляем директорию сервиса permissions
-add_subdirectory(permissions)
+add_subdirectory(permissions) 

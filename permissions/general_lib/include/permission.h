@@ -11,12 +11,8 @@ public:
    */
   enum class PermissionType : int32_t { SystemTime = 0 };
 
-  //   Permissions(sdbus::ServiceName service_name =
-  //                   sdbus::ServiceName{"com.system.permissions"},
-  //               sdbus::ObjectPath object_path = sdbus::ObjectPath{"/"});
   Permissions();
 
-protected:
   /**
    * @brief Заправшиваем права доступа
    *
@@ -36,17 +32,6 @@ protected:
                                              PermissionType perm) = 0;
 
 protected:
-  // так не получится, потому что в клиенте используется прокси, а на сервере
-  // конектион
-  // соединение с DBus шиной
-  // std::unique_ptr<sdbus::IConnection> m_connection;
-
-  // Объект на DBus шине
-  // std::unique_ptr<sdbus::IObject> m_object;
-
-  // sdbus::ServiceName m_service_name;
-  // sdbus::ObjectPath m_object_path;
-
   // имя интерфейса
   static constexpr const char *m_interface_name = "com.system.permissions";
 };
