@@ -87,6 +87,19 @@ gdbus send -e -d com.system.permissions -o / -m com.system.permissions.RequestPe
 gdbus call --session -e -d com.system.permissions -o / -m com.system.permissions.RequestPermission 0
 ```
 
+#### Пример использования:
+![](doc/RequestPermission.png)
+
+А также заместо
+```
+gdbus call --session -e -d com.system.permissions -o / -m com.system.permissions.CheckApplicationHasPermission path/to/exe 0
+```
+будет использована
+```
+gdbus call --session -e -d com.system.permissions -o / -m com.system.permissions.CheckApplicationHasPermission path/to/exe 0
+```
+#### Пример использования:
+![](doc/CheckApplicationHasPermission.png)
 
 ### Источники информации
 [Здесь инфа по dbus](https://github.com/Kistler-Group/sdbus-cpp/blob/master/docs/using-sdbus-c++.md)

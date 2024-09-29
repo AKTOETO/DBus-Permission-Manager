@@ -14,6 +14,13 @@ public:
   Permissions();
 
   /**
+   * @brief Запуск сервера
+   *
+   */
+  void run();
+
+private:
+  /**
    * @brief Заправшиваем права доступа
    *
    * @param perm код доступа
@@ -29,12 +36,6 @@ public:
    * @return false доступа нет
    */
   bool checkApplicationHasPermission(std::string str, PermissionType perm);
-
-  /**
-   * @brief Запуск сервера
-   *
-   */
-  void run();
 
   /**
    * @brief Получение пути файла по dbusid
@@ -53,6 +54,7 @@ public:
   uint32_t getPid(const std::string &dbus_id);
 
 private:
+
   // соединение с DBus шиной
   std::unique_ptr<sdbus::IConnection> m_connection;
 
