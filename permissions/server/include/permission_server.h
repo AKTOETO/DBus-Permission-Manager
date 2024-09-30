@@ -2,6 +2,7 @@
 #define PERMISSION_SERVER_H
 
 #include "permission.h"
+#include "db.h"
 
 class PermissionsServer : public Permissions {
 public:
@@ -27,6 +28,9 @@ public:
                                        PermissionType perm) override;
 
 private:
+  // База даных
+  DataBase m_db;
+
   // Объект на DBus шине
   std::unique_ptr<sdbus::IObject> m_object;
 };

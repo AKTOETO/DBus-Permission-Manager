@@ -1,36 +1,32 @@
 #include "permission.h"
 #include <iostream>
 
-// Permissions::Permissions(sdbus::ServiceName service_name,
-//                          sdbus::ObjectPath object_path)
-//     : m_service_name(service_name), m_object_path(object_path) {}
-
 Permissions::Permissions() {}
 
 void Permissions::requestPermission(PermissionType perm) {
-  // try {
+  try {
   checkPermission(perm);
   requestPermissionWOError(perm);
-  /*} catch (const sdbus::Error &e) {
+  } catch (const sdbus::Error &e) {
     std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
               << std::endl;
   } catch (const std::exception &e) {
     std::cerr << "Ошибка: " << e.what() << std::endl;
-  }*/
+  }
 }
 
 bool Permissions::checkApplicationHasPermission(std::string str,
                                                 PermissionType perm) {
   bool result = 0;
-  // try {
+  try {
   checkPermission(perm);
   result = checkApplicationHasPermissionWOError(str, perm);
-  // } catch (const sdbus::Error &e) {
-  //   std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
-  //             << std::endl;
-  // } catch (const std::exception &e) {
-  //   std::cerr << "Ошибка: " << e.what() << std::endl;
-  // }
+  } catch (const sdbus::Error &e) {
+    std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
+              << std::endl;
+  } catch (const std::exception &e) {
+    std::cerr << "Ошибка: " << e.what() << std::endl;
+  }
   return result;
 }
 

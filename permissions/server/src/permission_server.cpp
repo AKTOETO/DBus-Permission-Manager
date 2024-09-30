@@ -1,10 +1,11 @@
 #include "permission_server.h"
+#include "db.h"
 #include "utils.h"
 #include <iostream>
 #include <unistd.h>
 
 PermissionsServer::PermissionsServer(std::unique_ptr<sdbus::IObject> object)
-    : Permissions(), m_object(std::move(object)) {
+    : Permissions(), m_db("file.db"), m_object(std::move(object)) {
   // Регистрация методов
   m_object
       ->addVTable(sdbus::registerMethod("RequestPermission")
@@ -26,6 +27,8 @@ PermissionsServer::PermissionsServer(std::unique_ptr<sdbus::IObject> object)
 }
 
 void PermissionsServer::requestPermissionWOError(PermissionType perm) {
+
+  // try {
   std::string filepath =
       Utils::getFilepath(m_object->getCurrentlyProcessedMessage().getSender());
 
@@ -35,6 +38,14 @@ void PermissionsServer::requestPermissionWOError(PermissionType perm) {
   /*
     Сохраняем в бд запрос приложения о праве доступа
   */
+  { m_db.savePermissionRequest(filepath, perm); }
+
+  // } catch (const sdbus::Error &e) {
+  //   std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
+  //             << std::endl;
+  // } catch (const std::exception &e) {
+  //   std::cerr << "Ошибка: " << e.what() << std::endl;
+  // }
 }
 
 bool PermissionsServer::checkApplicationHasPermissionWOError(
@@ -42,12 +53,22 @@ bool PermissionsServer::checkApplicationHasPermissionWOError(
   // результат запроса: если права есть = 1, если нет = 0
   bool result = 0;
 
+  // try {
+
   std::cout << "Запрос права доступа: " << int32_t(perm)
             << " у приложения: " << str << std::endl;
 
   /*
    * Обращаемся к бд и узнаем, есть ли у приложения str права perm
    */
+  result = m_db.hasPermission(str, int(perm));
+
+  // } catch (const sdbus::Error &e) {
+  //   std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
+  //             << std::endl;
+  // } catch (const std::exception &e) {
+  //   std::cerr << "Ошибка: " << e.what() << std::endl;
+  // }
 
   // возвращаем результат запроса
   return result;

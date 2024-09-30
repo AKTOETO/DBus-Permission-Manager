@@ -62,7 +62,7 @@ chmod +x initial-conf.sh compile-debug.sh compile-release.sh
 > Если нужен тип сборки `Debug`, то вызываем скрипт `compile-debug.sh`
 5. Запускаем необходмые файлы из соответствующей папки:
 ```
-./build/Release/bin/permissions
+./build/Release/bin/permission_server ...
 ```
 
 Полный набор команд:
@@ -74,8 +74,14 @@ chmod +x initial-conf.sh compile-debug.sh compile-release.sh
 ./build/Release/bin/permissions
 ```
 
+> После сборки появится директория `build/<Тип сборки>/bin/`, где находятся необходимые исполняемые файлы.
+
 **2. Вариант установки вручную**
 
+
+
+
+---
 
 ### Тестирование
 Заместо команды 
@@ -104,3 +110,10 @@ gdbus call -e -d com.system.permissions -o / -m com.system.permissions.CheckAppl
 
 ### Источники информации
 [Здесь инфа по dbus](https://github.com/Kistler-Group/sdbus-cpp/blob/master/docs/using-sdbus-c++.md)
+
+---
+
+### Использование
+#### Первое задание
+Необходимо запустить Файл `build/<Тип сборки>/bin/permission_server`, который выполнит подключение к DBus шине и зарегистрирует там необходимые функции. Также создастся файл с базой данных под названием `build/<Тип сборки>/bin/file.db`, в котором будут храниться приложения и их уровни доступа.
+После чего можно использовать команды из пункта [Тестирование](#тестирование), либо же запустить приложение `build/<Тип сборки>/bin/permission_client`, в котором есть возможность протестировать две реализованные в первом задании команды.

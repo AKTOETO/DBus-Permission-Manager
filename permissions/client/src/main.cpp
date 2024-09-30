@@ -18,12 +18,16 @@ int main(int argc, char *argv[]) {
 
   PermissionsClient client(std::move(connection));
 
-  client.checkApplicationHasPermission("dyadas", Permissions::PermissionType::SystemTime);
+  client.checkApplicationHasPermission("dyadas",
+                                       Permissions::PermissionType::SystemTime);
 
   client.requestPermission(Permissions::PermissionType(100));
   client.requestPermission(Permissions::PermissionType::SystemTime);
-  client.checkApplicationHasPermission("oleg", Permissions::PermissionType::SystemTime);
+  client.checkApplicationHasPermission(
+      "/home/bogdan/Documents/MAI/DBus-Permission-Manager/build/Debug/bin/"
+      "permission_client",
+      Permissions::PermissionType::SystemTime);
   client.requestPermission(Permissions::PermissionType::SystemTime);
-  client.checkApplicationHasPermission("oleg123", Permissions::PermissionType::SystemTime);
-
+  client.checkApplicationHasPermission("oleg123",
+                                       Permissions::PermissionType::SystemTime);
 }
