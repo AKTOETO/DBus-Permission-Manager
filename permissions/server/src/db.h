@@ -7,7 +7,14 @@
 
 class DataBase {
 public:
-  DataBase(std::string filepath);
+  /**
+   * @brief Создание объекта базы данных
+   *
+   * @param filepath путь к базе данных
+   * @param drop_table нужно ли сбросить базу данных (удаляет ее содержимое,
+   * если бд раньше существовала)
+   */
+  DataBase(std::string filepath, bool drop_table = 0);
   ~DataBase();
 
   // Функция для сохранения запроса в базу данных

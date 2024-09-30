@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-DataBase::DataBase(std::string filepath) {
+DataBase::DataBase(std::string filepath, bool drop_table) {
 
   // Открываем файл с бд
   int rc = sqlite3_open(filepath.c_str(), &m_db);
@@ -12,10 +12,21 @@ DataBase::DataBase(std::string filepath) {
     throw std::runtime_error(sstr.str());
   }
 
+  // если же нужно удалить содержимое базы данных
+  if (drop_table) {
+    rc = sqlite3_exec(m_db, "DROP TABLE IF EXISTS permissions", nullptr,
+                      nullptr, nullptr);
+    if (rc != SQLITE_OK) {
+      std::stringstream sstr;
+      sstr << "Ошибка при удалении таблицы: " << sqlite3_errmsg(m_db);
+      throw std::runtime_error(sstr.str());
+    }
+  }
+
   // Создаем таблицу если она еще не существует
   std::string sql = "CREATE TABLE IF NOT EXISTS permissions ("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "executable_path TEXT,"
+                    "executable_path TEXT UNIQUE,"
                     "permission INTEGER)";
   rc = sqlite3_exec(m_db, sql.c_str(), nullptr, nullptr, nullptr);
   if (rc != SQLITE_OK) {

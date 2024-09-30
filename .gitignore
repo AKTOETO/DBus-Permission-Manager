@@ -3,3 +3,4 @@ build
 CMakeUserPresets.json
 TODO.md
 *.db
+db_config.h
