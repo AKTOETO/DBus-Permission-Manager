@@ -1,5 +1,6 @@
 #include "utils.h"
 
+#include <iomanip>
 #include <sdbus-c++/sdbus-c++.h>
 #include <unistd.h>
 
@@ -42,13 +43,31 @@ uint32_t getPid(const std::string &dbus_id) {
   return pid;
 }
 
-uint64_t getCurrentTime() {
-  // получаем текущее время
-  auto now = std::chrono::system_clock::now().time_since_epoch();
+// uint64_t getCurrentTime() {
+//   // получаем текущее время
+//   auto now = std::chrono::system_clock::now().time_since_epoch();
 
-  // преобразуем это все в миллисекунды
-  return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
-  return 0;
+//   // преобразуем это все в миллисекунды
+//   return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+//   return 0;
+// }
+
+void printTime(std::ostream &out, uint64_t time) {
+  // начало отсчета времени
+  std::chrono::system_clock::time_point tp =
+      std::chrono::system_clock::from_time_t(0);
+
+  // Добавляем миллисекунды к начальному моменту
+  tp += std::chrono::milliseconds(time);
+
+  // Преобразуем в time_t
+  time_t tt = std::chrono::system_clock::to_time_t(tp);
+
+  // Форматируем в строку
+  std::tm *tm = localtime(&tt);
+
+  // Формат: год-месяц-день часы:минуты:секунды
+  out << std::put_time(tm, "%Y-%m-%d %H:%M:%S\n");
 }
 
 std::unique_ptr<sdbus::IProxy> createProxy(std::string service_name,

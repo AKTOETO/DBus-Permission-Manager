@@ -15,6 +15,8 @@ public:
   virtual uint64_t getSystemTime() override;
 
 private:
+  // получение текущего времени
+  uint64_t getCurrentTime();
 
   // Объект на DBus шине
   std::unique_ptr<sdbus::IObject> m_object;

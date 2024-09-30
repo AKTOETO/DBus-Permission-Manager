@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(time_server)
+project(main_app)
 
 ################
 # ПЕРЕМЕННЫЕ
@@ -17,10 +17,9 @@ endforeach()
 
 # список библиотек
 set(LIBS 
-    utils_lib
-    time_general_lib
+    utils_lib 
+    time_client_lib
     permission_client_lib
-    SDBusCpp::sdbus-c++
 )
 message("############")
 

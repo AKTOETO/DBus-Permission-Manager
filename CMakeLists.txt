@@ -15,10 +15,13 @@ find_package(sdbus-c++ REQUIRED)
 find_package(SQLite3 REQUIRED)
 
 # добавление директории с утилитами
-add_subdirectory(utils)
+add_subdirectory(utils_lib)
 
 # добавляем директорию сервиса permissions
 add_subdirectory(permissions) 
 
 # добавляем директорию сервиса time
 add_subdirectory(time)
+
+# добавляем директорию главного приложения
+add_subdirectory(app)

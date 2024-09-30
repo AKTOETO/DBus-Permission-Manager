@@ -6,15 +6,7 @@ project(time_client)
 # ПЕРЕМЕННЫЕ ТЕСТОВОГО КЛИЕНТА
 ################
 
-# заголовочные файлы
-file(GLOB HDRS include/*)
-
 message("###### ${PROJECT_NAME} ######")
-message( "Заголовочные файлы:")
-foreach(header ${HDRS})
-    message("  ${header}")
-endforeach()
-
 # файлы исходного кода
 file(GLOB SRCS src/*)
 
@@ -25,9 +17,7 @@ endforeach()
 
 # список библиотек
 set(LIBS 
-    #time_general_lib
     time_client_lib
-    #SQLite::SQLite3
     SDBusCpp::sdbus-c++
 )
 message("############")
@@ -35,16 +25,10 @@ message("############")
 ################
 
 # создание исполняемого файла
-add_executable(${PROJECT_NAME} ${HDRS} ${SRCS})
+add_executable(${PROJECT_NAME} ${SRCS})
 
 # подключение библиотек
 target_link_libraries(${PROJECT_NAME} ${LIBS})
-
-# подключаем заголовочные файлы
-target_include_directories(${PROJECT_NAME}
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
 
 # проверка утечек памяти и вывод варнингов в дебаге
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")

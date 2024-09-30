@@ -1,5 +1,5 @@
-#ifndef PERMISSION_CLIENT_H
-#define PERMISSION_CLIENT_H
+#ifndef TIME_CLIENT_H
+#define TIME_CLIENT_H
 
 #include "mytime.h"
 
@@ -19,4 +19,4 @@ private:
   std::unique_ptr<sdbus::IProxy> m_proxy;
 };
 
-#endif //! PERMISSION_CLIENT_H
+#endif //! TIME_CLIENT_H

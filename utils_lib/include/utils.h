@@ -22,12 +22,14 @@ std::string getFilepath(const std::string &dbus_id);
  */
 uint32_t getPid(const std::string &dbus_id);
 
+
 /**
- * @brief Получить текущее время
- *
- * @return uint64_t время (в миллисекундах)
+ * @brief Печать времени в поток out
+ * 
+ * @param out поток вывода для времени
+ * @param time время (в миллисекундах)
  */
-uint64_t getCurrentTime();
+void printTime(std::ostream& out, uint64_t time);
 
 /**
  * @brief Фабрика по созданию прокси для подключения к сервисам

@@ -1,16 +1,18 @@
-#include "time_server.h"
-#include "permission_client.h"
-#include "utils.h"
 #include <iostream>
 #include <sstream>
 #include <unistd.h>
+
+#include "permission_client.h"
+#include "time_server.h"
+#include "utils.h"
 
 TimeServer::TimeServer(std::unique_ptr<sdbus::IObject> object)
     : Time(), m_object(std::move(object)) {
   m_object
       ->addVTable(sdbus::registerMethod("GetSystemTime")
                       .implementedAs(std::move([this]() -> uint64_t {
-                        return this->getSystemTime();
+                        auto num = getSystemTime();
+                        return num;
                       }))
                       .withOutputParamNames("timestamp"))
       .forInterface(m_interface_name);
@@ -44,5 +46,13 @@ uint64_t TimeServer::getSystemTime() {
   }
 
   // Если есть права, получаем текущее время
-  return Utils::getCurrentTime();
+  return getCurrentTime();
+}
+
+uint64_t TimeServer::getCurrentTime() {
+  // получаем текущее время
+  auto now = std::chrono::system_clock::now().time_since_epoch();
+
+  // преобразуем это все в миллисекунды
+  return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
 }

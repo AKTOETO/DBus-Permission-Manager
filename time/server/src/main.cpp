@@ -1,7 +1,6 @@
 #include "time_server.h"
 
-int main(int argc, char *argv[]) {
-
+int main() {
   // Создание шины на DBus
   sdbus::ServiceName serviceName{"com.system.time"};
   auto connection = sdbus::createSessionBusConnection(serviceName);
@@ -10,7 +9,7 @@ int main(int argc, char *argv[]) {
   sdbus::ObjectPath objectPath{"/"};
   auto object = sdbus::createObject(*connection, std::move(objectPath));
 
-  // создание сервера для работы с правами доступа
+  // создание сервера для работы с временем
   TimeServer server(std::move(object));
 
   // запуск работы сервиса
