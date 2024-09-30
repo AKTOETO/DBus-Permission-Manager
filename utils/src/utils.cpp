@@ -12,16 +12,15 @@ std::string getFilepath(const std::string &dbus_id) {
 
   // Проверяем, существует ли файл
   if (access(exe, F_OK) == -1) {
-    throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.PID"},
-                       "Процесс с таким pid не найден");
+    throw std::runtime_error("Процесс с таким pid не найден");
   }
 
   // Читаем символическую ссылку
   char buf[150];
   ssize_t len = readlink(exe, buf, sizeof(exe) - 1);
   if (len == -1) {
-    throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.LINK"},
-                       "Ошибка при чтении символической ссылки. Возможно нет такого пути.");
+    throw std::runtime_error(
+        "Ошибка при чтении символической ссылки. Возможно нет такого пути.");
   }
   buf[len] = '\0';
 
@@ -41,5 +40,14 @@ uint32_t getPid(const std::string &dbus_id) {
       .withArguments(dbus_id)
       .storeResultsTo(pid);
   return pid;
+}
+
+uint64_t getCurrentTime() {
+  // получаем текущее время
+  auto now = std::chrono::system_clock::now().time_since_epoch();
+
+  // преобразуем это все в миллисекунды
+  return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+  return 0;
 }
 } // namespace Utils

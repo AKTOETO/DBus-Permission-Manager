@@ -19,3 +19,6 @@ add_subdirectory(utils)
 
 # добавляем директорию сервиса permissions
 add_subdirectory(permissions) 
+
+# добавляем директорию сервиса time
+add_subdirectory(time)

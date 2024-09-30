@@ -12,7 +12,7 @@ public:
    *
    * @param perm код доступа
    */
-  virtual void requestPermissionWOError(PermissionType perm) override;
+  virtual void requestPermission(PermissionType perm) override;
 
   /**
    * @brief Проверяем: есть ли право доступа perm у приложения str
@@ -22,9 +22,8 @@ public:
    * @return true доступ есть \n
    * @return false доступа нет
    */
-  virtual bool
-  checkApplicationHasPermissionWOError(std::string str,
-                                       PermissionType perm) override;
+  virtual bool checkApplicationHasPermission(std::string str,
+                                             PermissionType perm) override;
 
 private:
   // Прокси для работы с DBus шиной

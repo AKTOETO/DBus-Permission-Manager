@@ -3,32 +3,18 @@
 
 Permissions::Permissions() {}
 
-void Permissions::requestPermission(PermissionType perm) {
-  try {
-  checkPermission(perm);
-  requestPermissionWOError(perm);
-  } catch (const sdbus::Error &e) {
-    std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
-              << std::endl;
-  } catch (const std::exception &e) {
-    std::cerr << "Ошибка: " << e.what() << std::endl;
-  }
-}
+// void Permissions::requestPermission(PermissionType perm) {
+//   checkPermission(perm);
+//   requestPermissionWOError(perm);
+// }
 
-bool Permissions::checkApplicationHasPermission(std::string str,
-                                                PermissionType perm) {
-  bool result = 0;
-  try {
-  checkPermission(perm);
-  result = checkApplicationHasPermissionWOError(str, perm);
-  } catch (const sdbus::Error &e) {
-    std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
-              << std::endl;
-  } catch (const std::exception &e) {
-    std::cerr << "Ошибка: " << e.what() << std::endl;
-  }
-  return result;
-}
+// bool Permissions::checkApplicationHasPermission(std::string str,
+//                                                 PermissionType perm) {
+//   bool result = 0;
+//   checkPermission(perm);
+//   result = checkApplicationHasPermissionWOError(str, perm);
+//   return result;
+// }
 
 void Permissions::checkPermission(PermissionType perm) {
   // если права больше допустимого, выбрасываем ошибку

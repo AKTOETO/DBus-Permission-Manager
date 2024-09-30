@@ -1,8 +1,8 @@
 #ifndef PERMISSION_SERVER_H
 #define PERMISSION_SERVER_H
 
-#include "permission.h"
 #include "db.h"
+#include "permission.h"
 
 class PermissionsServer : public Permissions {
 public:
@@ -13,7 +13,7 @@ public:
    *
    * @param perm код доступа
    */
-  virtual void requestPermissionWOError(PermissionType perm) override;
+  virtual void requestPermission(PermissionType perm) override;
 
   /**
    * @brief Проверяем: есть ли право доступа perm у приложения str
@@ -23,9 +23,8 @@ public:
    * @return true доступ есть \n
    * @return false доступа нет
    */
-  virtual bool
-  checkApplicationHasPermissionWOError(std::string str,
-                                       PermissionType perm) override;
+  virtual bool checkApplicationHasPermission(std::string str,
+                                             PermissionType perm) override;
 
 private:
   // База даных

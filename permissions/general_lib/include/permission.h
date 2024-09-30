@@ -15,44 +15,26 @@ public:
   Permissions();
 
   /**
-   * @brief Обертка с обработкой ошибок над requestPermissionWOError
-   *
-   * @param perm код доступа
-   */
-  void requestPermission(PermissionType perm);
-  /**
    * @brief Запрашивание прав доступа, без обработки ошибок
    *
    * @param perm код доступа
    */
-  virtual void requestPermissionWOError(PermissionType perm) = 0;
-
-  /**
-   * @brief Обертка с обработкой ошибок над checkApplicationHasPermission
-   *
-   *
-   * @param str путь к приложению
-   * @param perm код доступа
-   * @return true доступ есть \n
-   * @return false доступа нет
-   */
-  bool checkApplicationHasPermission(std::string str, PermissionType perm);
+  virtual void requestPermission(PermissionType perm) = 0;
 
   /**
    * @brief Проверяем: есть ли право доступа perm у приложения str
    *
+   *
    * @param str путь к приложению
    * @param perm код доступа
-   * @return true доступ есть \n
+   * @return true доступ есть
    * @return false доступа нет
    */
-  virtual bool checkApplicationHasPermissionWOError(std::string str,
-                                                    PermissionType perm) = 0;
+  virtual bool checkApplicationHasPermission(std::string str, PermissionType perm) = 0;
 
-private:
-// Обработка введенного типа доступа
-void checkPermission(PermissionType perm);
-
+protected:
+  // Обработка введенного типа доступа
+  void checkPermission(PermissionType perm);
 
 protected:
   // имя интерфейса

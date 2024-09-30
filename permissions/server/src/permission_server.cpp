@@ -26,49 +26,33 @@ PermissionsServer::PermissionsServer(std::unique_ptr<sdbus::IObject> object)
       .forInterface(m_interface_name);
 }
 
-void PermissionsServer::requestPermissionWOError(PermissionType perm) {
+void PermissionsServer::requestPermission(PermissionType perm) {
+  Permissions::checkPermission(perm);
 
-  // try {
   std::string filepath =
       Utils::getFilepath(m_object->getCurrentlyProcessedMessage().getSender());
 
-  std::cout << "Запрошенынй тип доступа: " << int32_t(perm)
-            << " для файла: " << filepath << std::endl;
+  std::cout << "requestPermission: " << int32_t(perm)
+            << " : " << filepath << std::endl;
 
-  /*
-    Сохраняем в бд запрос приложения о праве доступа
-  */
-  { m_db.savePermissionRequest(filepath, perm); }
+  //Сохраняем в бд запрос приложения о праве доступа
 
-  // } catch (const sdbus::Error &e) {
-  //   std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
-  //             << std::endl;
-  // } catch (const std::exception &e) {
-  //   std::cerr << "Ошибка: " << e.what() << std::endl;
-  // }
+  m_db.savePermissionRequest(filepath, perm);
 }
 
-bool PermissionsServer::checkApplicationHasPermissionWOError(
-    std::string str, PermissionType perm) {
+bool PermissionsServer::checkApplicationHasPermission(std::string str,
+                                                      PermissionType perm) {
+  Permissions::checkPermission(perm);
   // результат запроса: если права есть = 1, если нет = 0
   bool result = 0;
 
-  // try {
-
-  std::cout << "Запрос права доступа: " << int32_t(perm)
-            << " у приложения: " << str << std::endl;
+  std::cout << "checkApplicationHasPermission: " << int32_t(perm)
+            << " : " << str << std::endl;
 
   /*
    * Обращаемся к бд и узнаем, есть ли у приложения str права perm
    */
   result = m_db.hasPermission(str, int(perm));
-
-  // } catch (const sdbus::Error &e) {
-  //   std::cerr << "Ошибка: " << e.getName() << ":" << e.getMessage()
-  //             << std::endl;
-  // } catch (const std::exception &e) {
-  //   std::cerr << "Ошибка: " << e.what() << std::endl;
-  // }
 
   // возвращаем результат запроса
   return result;

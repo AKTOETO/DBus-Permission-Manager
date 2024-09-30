@@ -1,7 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <functional>
 #include <string>
 
 namespace Utils {
@@ -20,6 +19,13 @@ std::string getFilepath(const std::string &dbus_id);
  * @return std::string
  */
 uint32_t getPid(const std::string &dbus_id);
+
+/**
+ * @brief Получить текущее время
+ *
+ * @return uint64_t время (в миллисекундах)
+ */
+uint64_t getCurrentTime();
 
 } // namespace Utils
 
