@@ -30,7 +30,8 @@ public:
    * @return true доступ есть
    * @return false доступа нет
    */
-  virtual bool checkApplicationHasPermission(std::string str, PermissionType perm) = 0;
+  virtual bool checkApplicationHasPermission(std::string str,
+                                             PermissionType perm) = 0;
 
 protected:
   // Обработка введенного типа доступа

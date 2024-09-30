@@ -6,13 +6,14 @@
 
 class PermissionsServer : public Permissions {
 public:
-/**
- * @brief Создаем новый объект для взаимодействия с сервисом прав доступа
- * 
- * @param object DBus объект
- * @param drop_table нужно ли сбросить базу данных
- */
-  PermissionsServer(std::unique_ptr<sdbus::IObject> object, bool drop_table = 0);
+  /**
+   * @brief Создаем новый объект для взаимодействия с сервисом прав доступа
+   *
+   * @param object DBus объект
+   * @param drop_table нужно ли сбросить базу данных
+   */
+  PermissionsServer(std::unique_ptr<sdbus::IObject> object,
+                    bool drop_table = 0);
 
   /**
    * @brief Запрашиваем права доступа

@@ -12,7 +12,6 @@ int main(int argc, char *argv[]) {
   // нужно ли сбросить бд
   bool need_drop = 0;
 
-
   // если ввели -с, значит надо сбросить BD
   if (argc > 1 && strcmp(argv[1], "-c") == 0) {
     std::cout << "Сбрасываем базу данных\n";

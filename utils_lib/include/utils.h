@@ -1,9 +1,9 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <string>
 #include <memory>
 #include <sdbus-c++/sdbus-c++.h>
+#include <string>
 
 namespace Utils {
 /**
@@ -22,14 +22,13 @@ std::string getFilepath(const std::string &dbus_id);
  */
 uint32_t getPid(const std::string &dbus_id);
 
-
 /**
  * @brief Печать времени в поток out
- * 
+ *
  * @param out поток вывода для времени
  * @param time время (в миллисекундах)
  */
-void printTime(std::ostream& out, uint64_t time);
+void printTime(std::ostream &out, uint64_t time);
 
 /**
  * @brief Фабрика по созданию прокси для подключения к сервисам
