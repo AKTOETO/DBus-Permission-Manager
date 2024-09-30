@@ -50,4 +50,12 @@ uint64_t getCurrentTime() {
   return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
   return 0;
 }
+
+std::unique_ptr<sdbus::IProxy> createProxy(std::string service_name,
+                                           std::string object_path) {
+  // создадим прокси для подключения к серверной части permissions
+  sdbus::ServiceName serviceName{service_name};
+  sdbus::ObjectPath objectPath{object_path};
+  return sdbus::createProxy(std::move(serviceName), std::move(objectPath));
+}
 } // namespace Utils

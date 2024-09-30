@@ -2,6 +2,8 @@
 #define UTILS_H
 
 #include <string>
+#include <memory>
+#include <sdbus-c++/sdbus-c++.h>
 
 namespace Utils {
 /**
@@ -26,6 +28,16 @@ uint32_t getPid(const std::string &dbus_id);
  * @return uint64_t время (в миллисекундах)
  */
 uint64_t getCurrentTime();
+
+/**
+ * @brief Фабрика по созданию прокси для подключения к сервисам
+ *
+ * @param service_name имя сервиса
+ * @param object_path путь
+ * @return std::unique_ptr<sdbus::IProxy> прокси к сервису
+ */
+std::unique_ptr<sdbus::IProxy> createProxy(std::string service_name,
+                                           std::string object_path = "/");
 
 } // namespace Utils
 
