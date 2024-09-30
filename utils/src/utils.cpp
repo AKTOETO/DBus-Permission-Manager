@@ -21,7 +21,7 @@ std::string getFilepath(const std::string &dbus_id) {
   ssize_t len = readlink(exe, buf, sizeof(exe) - 1);
   if (len == -1) {
     throw sdbus::Error(sdbus::Error::Name{"com.system.permissions.Error.LINK"},
-                       "Ошибка при чтении символической ссылки");
+                       "Ошибка при чтении символической ссылки. Возможно нет такого пути.");
   }
   buf[len] = '\0';
 

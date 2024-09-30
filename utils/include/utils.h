@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <functional>
 #include <string>
 
 namespace Utils {
@@ -19,6 +20,7 @@ std::string getFilepath(const std::string &dbus_id);
  * @return std::string
  */
 uint32_t getPid(const std::string &dbus_id);
+
 } // namespace Utils
 
 #endif // !UTILS_H

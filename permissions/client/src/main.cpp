@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 
   client.checkApplicationHasPermission("dyadas", Permissions::PermissionType::SystemTime);
 
-  client.requestPermission(Permissions::PermissionType::SystemTime);
+  client.requestPermission(Permissions::PermissionType(100));
   client.requestPermission(Permissions::PermissionType::SystemTime);
   client.checkApplicationHasPermission("oleg", Permissions::PermissionType::SystemTime);
   client.requestPermission(Permissions::PermissionType::SystemTime);

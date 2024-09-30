@@ -26,7 +26,7 @@ endforeach()
 # список библиотек
 set(LIBS 
 #SQLite::SQLite3
-#    utils_lib
+    utils_lib
     SDBusCpp::sdbus-c++
 )
 message("############")

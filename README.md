@@ -84,7 +84,7 @@ gdbus send -e -d com.system.permissions -o / -m com.system.permissions.RequestPe
 ```
 будет использована
 ```
-gdbus call --session -e -d com.system.permissions -o / -m com.system.permissions.RequestPermission 0
+gdbus call -e -d com.system.permissions -o / -m com.system.permissions.RequestPermission 0
 ```
 
 #### Пример использования:
@@ -92,11 +92,12 @@ gdbus call --session -e -d com.system.permissions -o / -m com.system.permissions
 
 А также заместо
 ```
-gdbus call --session -e -d com.system.permissions -o / -m com.system.permissions.CheckApplicationHasPermission path/to/exe 0
+gdbus send -e -d com.system.permissions -o / -m com.system.permissions.CheckApplicationHasPermission
+/usr/bin/com.example.example 0
 ```
 будет использована
 ```
-gdbus call --session -e -d com.system.permissions -o / -m com.system.permissions.CheckApplicationHasPermission path/to/exe 0
+gdbus call -e -d com.system.permissions -o / -m com.system.permissions.CheckApplicationHasPermission path/to/exe 0
 ```
 #### Пример использования:
 ![](doc/CheckApplicationHasPermission.png)

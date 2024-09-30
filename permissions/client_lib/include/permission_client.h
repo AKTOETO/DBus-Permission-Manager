@@ -5,7 +5,6 @@
 
 class PermissionsClient : public Permissions {
 public:
-
   PermissionsClient(std::unique_ptr<sdbus::IProxy> proxy);
 
   /**
@@ -13,7 +12,7 @@ public:
    *
    * @param perm код доступа
    */
-  virtual void requestPermission(PermissionType perm) override;
+  virtual void requestPermissionWOError(PermissionType perm) override;
 
   /**
    * @brief Проверяем: есть ли право доступа perm у приложения str
@@ -23,12 +22,13 @@ public:
    * @return true доступ есть \n
    * @return false доступа нет
    */
-  virtual bool checkApplicationHasPermission(std::string str, PermissionType perm) override;
+  virtual bool
+  checkApplicationHasPermissionWOError(std::string str,
+                                       PermissionType perm) override;
 
 private:
   // Прокси для работы с DBus шиной
   std::unique_ptr<sdbus::IProxy> m_proxy;
 };
 
-
-#endif //!PERMISSION_CLIENT_H
+#endif //! PERMISSION_CLIENT_H

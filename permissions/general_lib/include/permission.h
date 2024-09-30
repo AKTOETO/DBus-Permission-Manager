@@ -1,6 +1,7 @@
 #ifndef PERMISSION_H
 #define PERMISSION_H
 
+#include "utils.h"
 #include <sdbus-c++/sdbus-c++.h>
 
 class Permissions {
@@ -9,16 +10,33 @@ public:
    * @brief Права доступа
    *
    */
-  enum class PermissionType : int32_t { SystemTime = 0 };
+  enum class PermissionType : int32_t { SystemTime = 0, MaxType };
 
   Permissions();
 
   /**
-   * @brief Заправшиваем права доступа
+   * @brief Обертка с обработкой ошибок над requestPermissionWOError
    *
    * @param perm код доступа
    */
-  virtual void requestPermission(PermissionType perm) = 0;
+  void requestPermission(PermissionType perm);
+  /**
+   * @brief Запрашивание прав доступа, без обработки ошибок
+   *
+   * @param perm код доступа
+   */
+  virtual void requestPermissionWOError(PermissionType perm) = 0;
+
+  /**
+   * @brief Обертка с обработкой ошибок над checkApplicationHasPermission
+   *
+   *
+   * @param str путь к приложению
+   * @param perm код доступа
+   * @return true доступ есть \n
+   * @return false доступа нет
+   */
+  bool checkApplicationHasPermission(std::string str, PermissionType perm);
 
   /**
    * @brief Проверяем: есть ли право доступа perm у приложения str
@@ -28,8 +46,13 @@ public:
    * @return true доступ есть \n
    * @return false доступа нет
    */
-  virtual bool checkApplicationHasPermission(std::string str,
-                                             PermissionType perm) = 0;
+  virtual bool checkApplicationHasPermissionWOError(std::string str,
+                                                    PermissionType perm) = 0;
+
+private:
+// Обработка введенного типа доступа
+void checkPermission(PermissionType perm);
+
 
 protected:
   // имя интерфейса

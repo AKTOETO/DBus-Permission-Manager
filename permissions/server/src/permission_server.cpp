@@ -25,8 +25,7 @@ PermissionsServer::PermissionsServer(std::unique_ptr<sdbus::IObject> object)
       .forInterface("com.system.permissions");
 }
 
-void PermissionsServer::requestPermission(PermissionType perm) {
-
+void PermissionsServer::requestPermissionWOError(PermissionType perm) {
   std::string filepath =
       Utils::getFilepath(m_object->getCurrentlyProcessedMessage().getSender());
 
@@ -38,17 +37,17 @@ void PermissionsServer::requestPermission(PermissionType perm) {
   */
 }
 
-bool PermissionsServer::checkApplicationHasPermission(std::string str,
-                                                      PermissionType perm) {
+bool PermissionsServer::checkApplicationHasPermissionWOError(
+    std::string str, PermissionType perm) {
+  // результат запроса: если права есть = 1, если нет = 0
+  bool result = 0;
+
   std::cout << "Запрос права доступа: " << int32_t(perm)
             << " у приложения: " << str << std::endl;
 
   /*
    * Обращаемся к бд и узнаем, есть ли у приложения str права perm
    */
-
-  // результат запроса: если права есть = 1, если нет = 0
-  bool result = 0;
 
   // возвращаем результат запроса
   return result;
