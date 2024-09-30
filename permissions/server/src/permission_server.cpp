@@ -23,7 +23,7 @@ PermissionsServer::PermissionsServer(std::unique_ptr<sdbus::IObject> object)
                           }))
                       .withInputParamNames("filepath", "Permissions")
                       .withOutputParamNames("access"))
-      .forInterface("com.system.permissions");
+      .forInterface(m_interface_name);
 }
 
 void PermissionsServer::requestPermissionWOError(PermissionType perm) {
