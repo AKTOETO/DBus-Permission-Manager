@@ -1,13 +1,14 @@
-#include "db_config.h"
 #include "permission_server.h"
 #include "db.h"
+#include "db_config.h"
 #include "utils.h"
 #include <iostream>
 #include <unistd.h>
 
 PermissionsServer::PermissionsServer(std::unique_ptr<sdbus::IObject> object,
                                      bool drop_table)
-    : Permissions(), m_db(DATABASE_PATH, drop_table), m_object(std::move(object)) {
+    : Permissions(), m_db(DATABASE_PATH, drop_table),
+      m_object(std::move(object)) {
   // Регистрация методов
   m_object
       ->addVTable(sdbus::registerMethod("RequestPermission")
@@ -29,6 +30,7 @@ PermissionsServer::PermissionsServer(std::unique_ptr<sdbus::IObject> object,
 }
 
 void PermissionsServer::requestPermission(PermissionType perm) {
+  // проверка границ прав доступа
   Permissions::checkPermission(perm);
 
   std::string filepath =
@@ -38,23 +40,22 @@ void PermissionsServer::requestPermission(PermissionType perm) {
             << std::endl;
 
   //Сохраняем в бд запрос приложения о праве доступа
-
   m_db.savePermissionRequest(filepath, perm);
 }
 
 bool PermissionsServer::checkApplicationHasPermission(std::string str,
                                                       PermissionType perm) {
+  // проверка границ прав доступа
   Permissions::checkPermission(perm);
+
   // результат запроса: если права есть = 1, если нет = 0
   bool result = 0;
 
   std::cout << "checkApplicationHasPermission: " << int32_t(perm) << " : "
             << str << std::endl;
 
-  /*
-   * Обращаемся к бд и узнаем, есть ли у приложения str права perm
-   */
-  result = m_db.hasPermission(str, int(perm));
+  // Обращаемся к бд и узнаем, есть ли у приложения str права perm
+  result = m_db.hasPermission(str, int32_t(perm));
 
   // возвращаем результат запроса
   return result;

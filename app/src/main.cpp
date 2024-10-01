@@ -35,6 +35,7 @@ int main() {
 
         // запрашивание прав доступа
         perm_client.requestPermission(Permissions::PermissionType::SystemTime);
+
       } else {
 
         // произошло другое DBus исключение

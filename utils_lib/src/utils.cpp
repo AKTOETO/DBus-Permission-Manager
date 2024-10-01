@@ -43,15 +43,6 @@ uint32_t getPid(const std::string &dbus_id) {
   return pid;
 }
 
-// uint64_t getCurrentTime() {
-//   // получаем текущее время
-//   auto now = std::chrono::system_clock::now().time_since_epoch();
-
-//   // преобразуем это все в миллисекунды
-//   return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
-//   return 0;
-// }
-
 void printTime(std::ostream &out, uint64_t time) {
   // начало отсчета времени
   std::chrono::system_clock::time_point tp =

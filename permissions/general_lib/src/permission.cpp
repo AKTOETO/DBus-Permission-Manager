@@ -3,19 +3,6 @@
 
 Permissions::Permissions() {}
 
-// void Permissions::requestPermission(PermissionType perm) {
-//   checkPermission(perm);
-//   requestPermissionWOError(perm);
-// }
-
-// bool Permissions::checkApplicationHasPermission(std::string str,
-//                                                 PermissionType perm) {
-//   bool result = 0;
-//   checkPermission(perm);
-//   result = checkApplicationHasPermissionWOError(str, perm);
-//   return result;
-// }
-
 void Permissions::checkPermission(PermissionType perm) {
   // если права больше допустимого, выбрасываем ошибку
   if (int32_t(perm) > int32_t(PermissionType::MaxType) || int32_t(perm) < 0) {

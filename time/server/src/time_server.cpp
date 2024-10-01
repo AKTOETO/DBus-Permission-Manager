@@ -8,6 +8,7 @@
 
 TimeServer::TimeServer(std::unique_ptr<sdbus::IObject> object)
     : Time(), m_object(std::move(object)) {
+  // Описываем функцию GetSystemTime сервиса
   m_object
       ->addVTable(sdbus::registerMethod("GetSystemTime")
                       .implementedAs(std::move([this]() -> uint64_t {
@@ -19,17 +20,15 @@ TimeServer::TimeServer(std::unique_ptr<sdbus::IObject> object)
 }
 
 uint64_t TimeServer::getSystemTime() {
+
   // Получение пути до файла, который вызвал этот метод
   std::string filepath =
       Utils::getFilepath(m_object->getCurrentlyProcessedMessage().getSender());
 
   // Проверка прав через сервис permissions
-  sdbus::ServiceName name{"com.system.permissions"};
-  sdbus::ObjectPath path{"/"};
-  auto proxy = sdbus::createProxy(std::move(name), std::move(path));
-
   // создаем клиент для взаимодействия с permissions
-  PermissionsClient client(std::move(proxy));
+  PermissionsClient client(
+      std::move(Utils::createProxy("com.system.permissions")));
 
   // получение прав доступа у файла
   bool result = client.checkApplicationHasPermission(
